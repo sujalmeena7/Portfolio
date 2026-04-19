@@ -13,7 +13,9 @@ export default function Contact() {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchAbout().then(setAbout);
+    fetchAbout()
+      .then(setAbout)
+      .catch((error) => console.error("[contact] Failed to load about data", error));
   }, []);
 
   const email = about?.email || "hello@alexvantage.dev";

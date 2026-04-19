@@ -67,7 +67,9 @@ export default function Skills() {
   const [skills, setSkills] = useState([]);
 
   useEffect(() => {
-    fetchSkills().then(setSkills);
+    fetchSkills()
+      .then(setSkills)
+      .catch((error) => console.error("[skills] Failed to load skills", error));
   }, []);
 
   return (

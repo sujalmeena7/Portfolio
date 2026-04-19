@@ -1,7 +1,7 @@
 import axios from "axios";
-import { personal, bio, stats, socials, skills as mockSkills, projects as mockProjects } from "../data/mock";
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const DEFAULT_BACKEND_URL = "https://portfolio-qi18.onrender.com";
+const BASE_URL = (process.env.REACT_APP_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, "");
 const API = `${BASE_URL}/api`;
 
 // Axios instance with token injection
@@ -24,43 +24,40 @@ http.interceptors.request.use((config) => {
   return config;
 });
 
+function logApiError(endpoint, error) {
+  console.error(`[api] ${endpoint} failed`, error);
+}
+
 // ---------- Public API ----------
 export async function fetchAbout() {
   try {
     const { data } = await http.get("/about");
     return data;
-  } catch (e) {
-    return {
-      name: personal.name,
-      role: personal.role,
-      tagline: personal.tagline,
-      bio,
-      location: personal.location,
-      email: personal.email,
-      available: personal.available,
-      stats,
-      socials,
-    };
+  } catch (error) {
+    logApiError("GET /about", error);
+    throw error;
   }
 }
 
 export async function fetchProjects() {
   try {
     const { data } = await http.get("/projects");
-    if (Array.isArray(data) && data.length) return data.map(normalizeProject);
-    return mockProjects;
-  } catch (e) {
-    return mockProjects;
+    if (!Array.isArray(data)) throw new Error("Invalid projects response shape");
+    return data.map(normalizeProject);
+  } catch (error) {
+    logApiError("GET /projects", error);
+    throw error;
   }
 }
 
 export async function fetchSkills() {
   try {
     const { data } = await http.get("/skills");
-    if (Array.isArray(data) && data.length) return data;
-    return mockSkills;
-  } catch (e) {
-    return mockSkills;
+    if (!Array.isArray(data)) throw new Error("Invalid skills response shape");
+    return data;
+  } catch (error) {
+    logApiError("GET /skills", error);
+    throw error;
   }
 }
 

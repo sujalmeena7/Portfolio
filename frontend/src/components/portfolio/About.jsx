@@ -9,7 +9,9 @@ export default function About() {
   const [about, setAbout] = useState(null);
 
   useEffect(() => {
-    fetchAbout().then(setAbout);
+    fetchAbout()
+      .then(setAbout)
+      .catch((error) => console.error("[about] Failed to load about data", error));
   }, []);
 
   useEffect(() => {
