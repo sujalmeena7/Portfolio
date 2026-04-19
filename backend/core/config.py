@@ -20,7 +20,7 @@ class Settings:
     UPLOAD_DIR: str = os.environ.get("UPLOAD_DIR", str(ROOT_DIR / "uploads"))
     PUBLIC_UPLOAD_BASE: str = os.environ.get("PUBLIC_UPLOAD_BASE", "/api/uploads")
 
-    EMERGENT_LLM_KEY: str = os.environ.get("EMERGENT_LLM_KEY", "")
+    OPENAI_API_KEY: str = os.environ.get("OPENAI_API_KEY", "")
     AI_PROVIDER: str = os.environ.get("AI_PROVIDER", "openai")
     AI_MODEL: str = os.environ.get("AI_MODEL", "gpt-4o-mini")
 

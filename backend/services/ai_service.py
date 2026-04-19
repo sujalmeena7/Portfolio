@@ -11,8 +11,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Any
-
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+from litellm import completion
 
 from core.config import settings
 from core.database import db
@@ -78,8 +77,8 @@ def _system_prompt(portfolio_context: str, recent_history: List[Dict[str, Any]])
 
 
 async def chat(session_id: str, user_text: str) -> str:
-    if not settings.EMERGENT_LLM_KEY:
-        raise RuntimeError("EMERGENT_LLM_KEY is not configured on the server.")
+    if not settings.OPENAI_API_KEY:
+        raise RuntimeError("OPENAI_API_KEY is not configured on the server.")
 
     # Fetch existing session history
     session = await db.chat_sessions.find_one({"session_id": session_id}) or {
@@ -92,18 +91,17 @@ async def chat(session_id: str, user_text: str) -> str:
     portfolio_context = await _build_portfolio_context()
     system_msg = _system_prompt(portfolio_context, history)
 
-    chat_client = LlmChat(
-        api_key=settings.EMERGENT_LLM_KEY,
-        session_id=session_id,
-        system_message=system_msg,
-    ).with_model(settings.AI_PROVIDER, settings.AI_MODEL)
+    messages = [{"role": "system", "content": system_msg}]
+    messages.extend([{"role": t["role"], "content": t["content"]} for t in history])
+    messages.append({"role": "user", "content": user_text})
 
     try:
-        reply = await chat_client.send_message(UserMessage(text=user_text))
-        if hasattr(reply, "content"):
-            reply_text = reply.content  # type: ignore
-        else:
-            reply_text = str(reply)
+        reply = await completion(
+            model=settings.AI_MODEL,
+            messages=messages,
+            api_key=settings.OPENAI_API_KEY
+        )
+        reply_text = reply.choices[0].message.content
     except Exception as e:  # pragma: no cover
         log.exception("LLM call failed")
         raise RuntimeError(f"AI provider error: {e}")
