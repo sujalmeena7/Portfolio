@@ -1,6 +1,7 @@
 import logging
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -29,6 +30,11 @@ app = FastAPI(
     version="1.0.0",
     description="Backend for Alex Vantage's portfolio — JWT auth, projects/skills/about CRUD, contact inbox, AI chat with RAG, analytics.",
 )
+
+
+@app.get("/", include_in_schema=False)
+async def app_root():
+    return RedirectResponse(url="/api/")
 
 # Rate limiter
 app.state.limiter = limiter
