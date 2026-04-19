@@ -1,11 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import useReveal from "../../hooks/useReveal";
-import { bio, stats } from "../../data/mock";
+import { fetchAbout } from "../../lib/api";
 
 export default function About() {
   const meshCanvasRef = useRef(null);
   const [revealRef, visible] = useReveal();
+  const [about, setAbout] = useState(null);
+
+  useEffect(() => {
+    fetchAbout().then(setAbout);
+  }, []);
 
   useEffect(() => {
     const canvas = meshCanvasRef.current;
@@ -69,6 +74,9 @@ export default function About() {
     };
   }, []);
 
+  const bioLines = about?.bio || [];
+  const statsList = about?.stats || [];
+
   return (
     <section id="about" className="section about" ref={revealRef}>
       <div className="section__index">01</div>
@@ -83,17 +91,19 @@ export default function About() {
         </div>
 
         <div className={`about__content ${visible ? "fade-up-in" : "fade-up"}`}>
-          <div className="about__badge">
-            <span className="about__badge-dot" />
-            <span>Currently available for work</span>
-          </div>
+          {about?.available && (
+            <div className="about__badge">
+              <span className="about__badge-dot" />
+              <span>Currently available for work</span>
+            </div>
+          )}
 
-          {bio.map((p, i) => (
+          {bioLines.map((p, i) => (
             <p key={i} className="about__p">{p}</p>
           ))}
 
           <div className="about__stats">
-            {stats.map((s) => (
+            {statsList.map((s) => (
               <div key={s.label} className="stat-card">
                 <div className="stat-card__value">
                   {s.value}<span className="stat-card__suffix">{s.suffix}</span>

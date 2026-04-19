@@ -1,11 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Braces, Atom, Server, Box, Terminal, Container, Cloud, Figma,
+  Database, Code2, Cpu, Layers,
 } from "lucide-react";
 import useReveal from "../../hooks/useReveal";
-import { skills } from "../../data/mock";
+import { fetchSkills } from "../../lib/api";
 
-const ICONS = { Braces, Atom, Server, Box, Terminal, Container, Cloud, Figma };
+const ICONS = {
+  Braces, Atom, Server, Box, Terminal, Container, Cloud, Figma,
+  Database, Code2, Cpu, Layers,
+};
 
 function TiltCard({ skill, index, inView }) {
   const ref = useRef(null);
@@ -60,6 +64,12 @@ function TiltCard({ skill, index, inView }) {
 
 export default function Skills() {
   const [ref, visible] = useReveal();
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    fetchSkills().then(setSkills);
+  }, []);
+
   return (
     <section id="skills" className="section skills" ref={ref}>
       <div className="section__index">02</div>
@@ -72,7 +82,7 @@ export default function Skills() {
 
       <div className="skills__grid">
         {skills.map((s, i) => (
-          <TiltCard key={s.name} skill={s} index={i} inView={visible} />
+          <TiltCard key={s.id || s.name} skill={s} index={i} inView={visible} />
         ))}
       </div>
     </section>

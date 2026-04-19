@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import useReveal from "../../hooks/useReveal";
-import { projects } from "../../data/mock";
+import { fetchProjects } from "../../lib/api";
 
 function ProjectCard({ project, index }) {
   const [ref, visible] = useReveal();
+  const displayId = project.displayId || String(index + 1).padStart(2, "0");
+  const hasLive = project.live && project.live !== "#";
+  const hasGithub = project.github && project.github !== "#";
+
   return (
     <article
       ref={ref}
@@ -12,8 +16,11 @@ function ProjectCard({ project, index }) {
       style={{ transitionDelay: `${index * 90}ms` }}
     >
       <div className="project-card__media" style={{ background: project.gradient }}>
+        {project.image_url && (
+          <img src={project.image_url} alt={project.title} className="project-card__img" />
+        )}
         <div className="project-card__media-grid" aria-hidden="true" />
-        <div className="project-card__media-id">{project.id}</div>
+        <div className="project-card__media-id">{displayId}</div>
         <div className="project-card__media-label">
           <span>CASE STUDY</span>
           <ArrowUpRight size={18} />
@@ -22,7 +29,7 @@ function ProjectCard({ project, index }) {
 
       <div className="project-card__body">
         <div className="project-card__tags">
-          {project.tags.map((t) => (
+          {(project.tags || []).map((t) => (
             <span key={t} className="project-card__tag">{t}</span>
           ))}
         </div>
@@ -30,10 +37,22 @@ function ProjectCard({ project, index }) {
         <p className="project-card__desc">{project.description}</p>
 
         <div className="project-card__actions">
-          <a href={project.live} onClick={(e) => e.preventDefault()} className="btn btn--primary btn--sm">
+          <a
+            href={project.live || "#"}
+            target={hasLive ? "_blank" : undefined}
+            rel="noreferrer"
+            onClick={(e) => { if (!hasLive) e.preventDefault(); }}
+            className="btn btn--primary btn--sm"
+          >
             <ExternalLink size={14} /> View Live
           </a>
-          <a href={project.github} onClick={(e) => e.preventDefault()} className="btn btn--ghost btn--sm">
+          <a
+            href={project.github || "#"}
+            target={hasGithub ? "_blank" : undefined}
+            rel="noreferrer"
+            onClick={(e) => { if (!hasGithub) e.preventDefault(); }}
+            className="btn btn--ghost btn--sm"
+          >
             <Github size={14} /> GitHub
           </a>
         </div>
@@ -44,6 +63,12 @@ function ProjectCard({ project, index }) {
 
 export default function Projects() {
   const [ref, visible] = useReveal();
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetchProjects().then(setProjects);
+  }, []);
+
   return (
     <section id="projects" className="section projects" ref={ref}>
       <div className="section__index">03</div>
@@ -56,7 +81,7 @@ export default function Projects() {
 
       <div className="projects__grid">
         {projects.map((p, i) => (
-          <ProjectCard key={p.id} project={p} index={i} />
+          <ProjectCard key={p.id || i} project={p} index={i} />
         ))}
       </div>
     </section>
