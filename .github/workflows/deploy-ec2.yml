@@ -27,16 +27,10 @@ jobs:
             git pull origin main
             
             # If you are using a virtual environment (recommended), activate it:
-            # source ../venv/bin/activate 
-            # Or if venv is inside backend:
-            # source venv/bin/activate
+            source venv/bin/activate
             
             # Install any new dependencies
             pip install -r requirements.txt
             
             # Restart the backend service
-            # If using pm2:
-            # pm2 restart portfolio-backend
-            
-            # If using systemd (systemctl):
-            # sudo systemctl restart portfolio-backend
+            pm2 restart portfolio-backend
