@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DEFAULT_BACKEND_URL = "https://portfolio-qi18.onrender.com";
+const DEFAULT_BACKEND_URL = "http://13.205.42.176:8000";
 const BASE_URL = (process.env.REACT_APP_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, "");
 const API = `${BASE_URL}/api`;
 
