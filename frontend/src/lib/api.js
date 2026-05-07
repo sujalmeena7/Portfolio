@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const DEFAULT_BACKEND_URL = "http://13.205.42.176:8000";
+// Use empty string in production so requests go to /api/... and Vercel proxies them.
+// In development, it will fall back to localhost or the provided env var.
+const DEFAULT_BACKEND_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
 const BASE_URL = (process.env.REACT_APP_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, "");
 const API = `${BASE_URL}/api`;
 
