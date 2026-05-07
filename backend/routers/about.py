@@ -10,18 +10,25 @@ router = APIRouter(prefix="/about", tags=["about"])
 
 def _default_about() -> dict:
     return About(
-        name="Alex Vantage",
-        role="Creative Full-Stack Developer",
-        tagline="Designing and shipping high-impact digital products.",
+        name="Sujal Meena",
+        role="Full-Stack AI Engineer",
+        tagline="Crafting intelligent agentic workflows and high-performance digital systems.",
         bio=[
-            "I build performant web apps with clean architecture and strong UX.",
-            "I specialize in React + FastAPI systems with production-ready delivery.",
+            "I am a Computer Science student at PEC Chandigarh and a software developer specializing in AI-driven architectures. I focus on building autonomous agentic workflows and sophisticated RAG pipelines, bridging the gap between raw data and intelligent automation.",
+            "My approach combines technical rigor—using stacks like Python, FastAPI, and Next.js—with a commitment to minimalist, high-end design. Whether it's legal tech compliance or performance-heavy hackathon builds, I prioritize clean code and premium user experiences.",
         ],
-        location="Remote",
-        email="hello@alexvantage.dev",
+        location="Chandigarh, India",
+        email="meenasujal60@gmail.com",
         available=True,
-        stats=[],
-        socials={},
+        stats=[
+            {"label": "Projects", "value": "8", "suffix": "+"},
+            {"label": "Hackathons", "value": "10", "suffix": "+"},
+            {"label": "Technologies", "value": "15", "suffix": "+"},
+        ],
+        socials={
+            "github": "https://github.com/sujalmeena7",
+            "linkedin": "https://www.linkedin.com/in/sujal-meena-170418371",
+        },
     ).model_dump()
 
 
