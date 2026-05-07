@@ -29,9 +29,21 @@ function logApiError(endpoint, error) {
 }
 
 // ---------- Public API ----------
+const withRetry = async (fn, retries = 3, delay = 2000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      console.warn(`[api] Request failed, retrying in ${delay}ms... (${i + 1}/${retries})`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+};
+
 export async function fetchAbout() {
   try {
-    const { data } = await http.get("/about");
+    const { data } = await withRetry(() => http.get("/about"), 5, 3000);
     return data;
   } catch (error) {
     logApiError("GET /about", error);
@@ -41,7 +53,7 @@ export async function fetchAbout() {
 
 export async function fetchProjects() {
   try {
-    const { data } = await http.get("/projects");
+    const { data } = await withRetry(() => http.get("/projects"), 5, 3000);
     if (!Array.isArray(data)) throw new Error("Invalid projects response shape");
     return data.map(normalizeProject);
   } catch (error) {
@@ -52,7 +64,7 @@ export async function fetchProjects() {
 
 export async function fetchSkills() {
   try {
-    const { data } = await http.get("/skills");
+    const { data } = await withRetry(() => http.get("/skills"), 5, 3000);
     if (!Array.isArray(data)) throw new Error("Invalid skills response shape");
     return data;
   } catch (error) {
