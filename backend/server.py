@@ -28,7 +28,7 @@ log = logging.getLogger("server")
 app = FastAPI(
     title="Portfolio API",
     version="1.0.0",
-    description="Backend for Alex Vantage's portfolio — JWT auth, projects/skills/about CRUD, contact inbox, AI chat with RAG, analytics.",
+    description="Backend for Sujal Meena's portfolio — JWT auth, projects/skills/about CRUD, contact inbox, AI chat with RAG, analytics.",
 )
 
 

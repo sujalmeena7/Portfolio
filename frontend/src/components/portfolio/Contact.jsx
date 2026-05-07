@@ -18,7 +18,7 @@ export default function Contact() {
       .catch((error) => console.error("[contact] Failed to load about data", error));
   }, []);
 
-  const email = about?.email || "hello@alexvantage.dev";
+  const email = about?.email || "meenasujal60@gmail.com";
   const socials = about?.socials || {};
 
   const copyEmail = async () => {

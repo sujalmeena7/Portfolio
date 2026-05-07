@@ -18,7 +18,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Hi — I'm the AI concierge for Alex's portfolio. Ask me about projects, skills, or how to get in touch.",
+      content: "Hi — I'm the AI concierge for Sujal's portfolio. Ask me about projects, skills, or how to get in touch.",
     },
   ]);
   const [input, setInput] = useState("");
