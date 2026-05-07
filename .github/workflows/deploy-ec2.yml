@@ -1,0 +1,42 @@
+name: Deploy Backend to EC2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # Only trigger if backend files change
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          # port: 22 # Optional: Change if you use a custom SSH port
+          script: |
+            # Navigate to the project directory on your EC2 instance
+            # UPDATE THIS PATH to where your project is cloned on EC2
+            cd /home/ubuntu/Portfolio/backend
+            
+            # Pull the latest changes from GitHub
+            git pull origin main
+            
+            # If you are using a virtual environment (recommended), activate it:
+            # source ../venv/bin/activate 
+            # Or if venv is inside backend:
+            # source venv/bin/activate
+            
+            # Install any new dependencies
+            pip install -r requirements.txt
+            
+            # Restart the backend service
+            # If using pm2:
+            # pm2 restart portfolio-backend
+            
+            # If using systemd (systemctl):
+            # sudo systemctl restart portfolio-backend
