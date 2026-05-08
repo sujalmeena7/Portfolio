@@ -21,6 +21,7 @@ class Settings:
     PUBLIC_UPLOAD_BASE: str = os.environ.get("PUBLIC_UPLOAD_BASE", "/api/uploads")
 
     OPENAI_API_KEY: str = os.environ.get("OPENAI_API_KEY", "")
+    GEMINI_API_KEY: str = os.environ.get("GEMINI_API_KEY", "")
     AI_PROVIDER: str = os.environ.get("AI_PROVIDER", "openai")
     AI_MODEL: str = os.environ.get("AI_MODEL", "gpt-4o-mini")
 

@@ -77,8 +77,9 @@ def _system_prompt(portfolio_context: str, recent_history: List[Dict[str, Any]])
 
 
 async def chat(session_id: str, user_text: str) -> str:
-    if not settings.OPENAI_API_KEY:
-        raise RuntimeError("OPENAI_API_KEY is not configured on the server.")
+    api_key = settings.OPENAI_API_KEY if settings.AI_PROVIDER == "openai" else settings.GEMINI_API_KEY
+    if not api_key:
+        raise RuntimeError(f"{settings.AI_PROVIDER.upper()}_API_KEY is not configured on the server.")
 
     # Fetch existing session history
     session = await db.chat_sessions.find_one({"session_id": session_id}) or {
@@ -99,7 +100,7 @@ async def chat(session_id: str, user_text: str) -> str:
         reply = await completion(
             model=settings.AI_MODEL,
             messages=messages,
-            api_key=settings.OPENAI_API_KEY
+            api_key=api_key
         )
         reply_text = reply.choices[0].message.content
     except Exception as e:  # pragma: no cover
