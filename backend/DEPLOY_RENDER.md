@@ -19,11 +19,12 @@ Required:
 - CORS_ORIGINS
 
 Required only for AI routes (/api/ai/*):
-- OPENAI_API_KEY
+- OPENAI_API_KEY (when AI_PROVIDER=openai)
+- GEMINI_API_KEY (when AI_PROVIDER=gemini)
 
 Optional:
-- AI_PROVIDER (default: openai)
-- AI_MODEL (default: gpt-4o-mini)
+- AI_PROVIDER (default: openai; supported: openai, gemini)
+- AI_MODEL (default: gpt-4o-mini; for gemini use gemini/gemini-1.5-flash)
 - JWT_ALGORITHM (default: HS256)
 - JWT_EXPIRE_MINUTES (default: 720)
 - SEED_ADMIN_EMAIL

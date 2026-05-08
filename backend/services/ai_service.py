@@ -19,6 +19,40 @@ from core.database import db
 log = logging.getLogger("ai")
 
 MAX_HISTORY_TURNS = 12  # last 12 turns (user+assistant pairs counted individually)
+DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
+DEFAULT_GEMINI_MODEL = "gemini/gemini-1.5-flash"
+
+
+def _normalized_provider(raw_provider: str) -> str:
+    provider = (raw_provider or "").strip().lower()
+    if provider in {"openai", "gemini"}:
+        return provider
+    raise RuntimeError("Unsupported AI_PROVIDER. Use 'openai' or 'gemini'.")
+
+
+def _normalized_model(provider: str, raw_model: str) -> str:
+    model = (raw_model or "").strip()
+    if provider == "openai":
+        return model or DEFAULT_OPENAI_MODEL
+
+    # Gemini provider: accept legacy/deprecated formats and normalize for LiteLLM.
+    if not model:
+        return DEFAULT_GEMINI_MODEL
+
+    candidate = model
+    for prefix in ("gemini/", "models/"):
+        if candidate.startswith(prefix):
+            candidate = candidate.split("/", 1)[1]
+
+    if candidate in {"gemini-pro", "gemini-pro-latest"}:
+        log.warning(
+            "Deprecated Gemini model '%s' configured; using '%s'.",
+            model,
+            DEFAULT_GEMINI_MODEL,
+        )
+        return DEFAULT_GEMINI_MODEL
+
+    return f"gemini/{candidate}"
 
 
 async def _build_portfolio_context() -> str:
@@ -77,9 +111,11 @@ def _system_prompt(portfolio_context: str, recent_history: List[Dict[str, Any]])
 
 
 async def chat(session_id: str, user_text: str) -> str:
-    api_key = settings.OPENAI_API_KEY if settings.AI_PROVIDER == "openai" else settings.GEMINI_API_KEY
+    provider = _normalized_provider(settings.AI_PROVIDER)
+    api_key = settings.OPENAI_API_KEY if provider == "openai" else settings.GEMINI_API_KEY
     if not api_key:
-        raise RuntimeError(f"{settings.AI_PROVIDER.upper()}_API_KEY is not configured on the server.")
+        raise RuntimeError(f"{provider.upper()}_API_KEY is not configured on the server.")
+    model = _normalized_model(provider, settings.AI_MODEL)
 
     # Fetch existing session history
     session = await db.chat_sessions.find_one({"session_id": session_id}) or {
@@ -98,7 +134,7 @@ async def chat(session_id: str, user_text: str) -> str:
 
     try:
         reply = await completion(
-            model=settings.AI_MODEL,
+            model=model,
             messages=messages,
             api_key=api_key
         )
