@@ -26,6 +26,7 @@ requests==2.33.1
 openai==1.99.9
 tiktoken==0.12.0
 litellm==1.80.0
+google-genai
 
 # Rate Limiting
 slowapi==0.1.9
