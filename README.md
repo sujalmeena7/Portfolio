@@ -127,7 +127,7 @@ The "AI Concierge" is the centerpiece of the portfolio:
 Feel free to explore the code! If you're a recruiter or hiring manager looking for a detail-oriented full-stack engineer:
 - **Portfolio:** [Visit Live Site](#)
 - **LinkedIn:** [Sujal Meena](#)
-- **Email:** [admin@portfolio.dev](mailto:admin@portfolio.dev)
+- **Email:** [meenasujal60@gmail.com](mailto:meenasujal60@gmail.com)
 
 ---
 <div align="center">
