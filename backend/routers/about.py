@@ -29,6 +29,7 @@ def _default_about() -> dict:
             "github": "https://github.com/sujalmeena7",
             "linkedin": "https://www.linkedin.com/in/sujal-meena-170418371",
         },
+        resume_url="/Sujal_Meena_Resume_Final.pdf",
     ).model_dump()
 
 

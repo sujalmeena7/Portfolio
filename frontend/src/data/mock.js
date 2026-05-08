@@ -7,6 +7,7 @@ export const personal = {
   email: "meenasujal60@gmail.com",
   location: "Chandigarh, India",
   available: true,
+  resume: "/Sujal_Meena_Resume_Final.pdf",
 };
 
 export const socials = {

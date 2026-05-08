@@ -178,7 +178,12 @@ export default function Hero() {
             <Play size={16} />
             <span>View Work</span>
           </a>
-          <a href="#" onClick={(e) => e.preventDefault()} className="btn btn--ghost magnetic">
+          <a 
+            href={personal.resume} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn btn--ghost magnetic"
+          >
             <Download size={16} />
             <span>Download CV</span>
           </a>

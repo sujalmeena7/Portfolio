@@ -78,6 +78,7 @@ class AboutInput(BaseModel):
     available: bool = True
     stats: List[Stat] = []
     socials: Dict[str, str] = {}
+    resume_url: Optional[str] = None
 
 
 class About(AboutInput):

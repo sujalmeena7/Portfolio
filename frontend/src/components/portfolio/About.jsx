@@ -114,6 +114,17 @@ export default function About() {
               </div>
             ))}
           </div>
+
+          <div className="about__actions">
+            <a 
+              href={about?.resume_url || "/Sujal_Meena_Resume_Final.pdf"} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn--ghost"
+            >
+              <span>Download Full CV</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
