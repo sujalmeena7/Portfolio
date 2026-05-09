@@ -1,4 +1,6 @@
 import axios from "axios";
+import { projects as mockProjects, skills as mockSkills, about as mockAbout } from "../data/mock";
+
 
 // Use empty string in production so requests go to /api/... and Vercel proxies them.
 // In development, it will fall back to localhost or the provided env var.
@@ -49,7 +51,7 @@ export async function fetchAbout() {
     return data;
   } catch (error) {
     logApiError("GET /about", error);
-    throw error;
+    return mockAbout;
   }
 }
 
@@ -57,10 +59,12 @@ export async function fetchProjects() {
   try {
     const { data } = await withRetry(() => http.get("/projects"), 5, 3000);
     if (!Array.isArray(data)) throw new Error("Invalid projects response shape");
+    // If backend returns empty, also consider fallback
+    if (data.length === 0) return mockProjects;
     return data.map(normalizeProject);
   } catch (error) {
     logApiError("GET /projects", error);
-    throw error;
+    return mockProjects;
   }
 }
 
@@ -68,10 +72,11 @@ export async function fetchSkills() {
   try {
     const { data } = await withRetry(() => http.get("/skills"), 5, 3000);
     if (!Array.isArray(data)) throw new Error("Invalid skills response shape");
+    if (data.length === 0) return mockSkills;
     return data;
   } catch (error) {
     logApiError("GET /skills", error);
-    throw error;
+    return mockSkills;
   }
 }
 
