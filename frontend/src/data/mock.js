@@ -70,3 +70,11 @@ export const navLinks = [
   { label: "Work", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
+
+export const about = {
+  ...personal,
+  socials,
+  stats,
+  bio,
+  resume_url: personal.resume,
+};
