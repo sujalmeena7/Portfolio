@@ -43,6 +43,15 @@ PROJECTS = [
         "github_url": "https://github.com/sujalmeena7/Connect-AI",
         "order": 3,
     },
+    {
+        "title": "Tab Hibernator Pro",
+        "description": "High-performance, privacy-first Chrome extension that intelligently suspends inactive tabs to reclaim system memory. Built on Manifest V3 with a smart exclusion engine that detects audio, video, and active form inputs to ensure zero data loss while keeping the browser blazing fast.",
+        "tags": ["JavaScript", "Chrome Extension", "Manifest V3", "Performance"],
+        "gradient": "linear-gradient(135deg, #4f46e5 0%, #818cf8 100%)",
+        "live_url": "https://github.com/sujalmeena7/Tab-Hibernator-Pro",
+        "github_url": "https://github.com/sujalmeena7/Tab-Hibernator-Pro",
+        "order": 4,
+    },
 ]
 
 SKILLS = [
@@ -64,7 +73,7 @@ ABOUT = {
     "email": "meenasujal60@gmail.com",
     "available": True,
     "stats": [
-        {"label": "Projects", "value": "8", "suffix": "+"},
+        {"label": "Projects", "value": "9", "suffix": "+"},
         {"label": "Hackathons", "value": "10", "suffix": "+"},
         {"label": "Technologies", "value": "15", "suffix": "+"},
     ],
