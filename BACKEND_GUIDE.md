@@ -63,7 +63,7 @@ AI_PROVIDER="openai"
 AI_MODEL="gpt-4o-mini"
 # Gemini option:
 # AI_PROVIDER="gemini"
-# AI_MODEL="gemini/gemini-1.5-flash"  # gemini-pro is deprecated
+# AI_MODEL="gemini/gemini-2.0-flash"
 ```
 
 ---

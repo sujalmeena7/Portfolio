@@ -24,7 +24,7 @@ Required only for AI routes (/api/ai/*):
 
 Optional:
 - AI_PROVIDER (default: openai; supported: openai, gemini)
-- AI_MODEL (default: gpt-4o-mini; for gemini use gemini/gemini-1.5-flash)
+- AI_MODEL (default: gpt-4o-mini; for gemini use gemini/gemini-2.0-flash)
 - JWT_ALGORITHM (default: HS256)
 - JWT_EXPIRE_MINUTES (default: 720)
 - SEED_ADMIN_EMAIL

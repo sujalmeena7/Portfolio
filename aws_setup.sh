@@ -31,19 +31,27 @@ fi
 echo "Setting up backend environment..."
 cd /home/ubuntu/Portfolio/backend
 
-cat << 'EOF' > .env
-MONGO_URL=mongodb+srv://portfolioUser:EM84vz81%23%23@cluster0.evavgyu.mongodb.net/portfolio_db?retryWrites=true&w=majority&appName=Cluster0
-DB_NAME=portfolio_db
-JWT_SECRET=x9kP3mR7vL2qQ8sY4wH5nC6bJ1tF9gD0vM3zX8cR
-CORS_ORIGINS=*
-GEMINI_API_KEY=AIzaSyDeBTeCEq25BeBCe0ZEDDcZFjShcdW-xzE
-AI_PROVIDER=gemini
-AI_MODEL=gemini/gemini-1.5-flash
-JWT_ALGORITHM=HS256
-JWT_EXPIRE_MINUTES=720
+# ── Write .env from environment variables (set these on your server beforehand) ──
+# Required env vars: MONGO_URL, JWT_SECRET, GEMINI_API_KEY
+# Optional: DB_NAME, CORS_ORIGINS, AI_PROVIDER, AI_MODEL, JWT_ALGORITHM, JWT_EXPIRE_MINUTES
+if [ -f .env ]; then
+    echo ".env already exists — skipping creation. Edit manually if needed."
+else
+    cat << EOF > .env
+MONGO_URL=${MONGO_URL:?Set MONGO_URL before running this script}
+DB_NAME=${DB_NAME:-portfolio_db}
+JWT_SECRET=${JWT_SECRET:?Set JWT_SECRET before running this script}
+CORS_ORIGINS=${CORS_ORIGINS:-*}
+GEMINI_API_KEY=${GEMINI_API_KEY:?Set GEMINI_API_KEY before running this script}
+AI_PROVIDER=${AI_PROVIDER:-gemini}
+AI_MODEL=${AI_MODEL:-gemini/gemini-2.0-flash}
+JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+JWT_EXPIRE_MINUTES=${JWT_EXPIRE_MINUTES:-720}
 UPLOAD_DIR=/home/ubuntu/Portfolio/backend/uploads
 PUBLIC_UPLOAD_BASE=/api/uploads
 EOF
+    echo ".env created successfully."
+fi
 
 echo "Setting up Python virtual environment..."
 python3 -m venv venv

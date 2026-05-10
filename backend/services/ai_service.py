@@ -20,7 +20,7 @@ log = logging.getLogger("ai")
 
 MAX_HISTORY_TURNS = 12  # last 12 turns (user+assistant pairs counted individually)
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
-DEFAULT_GEMINI_MODEL = "gemini/gemini-1.5-flash"
+DEFAULT_GEMINI_MODEL = "gemini/gemini-2.0-flash"
 
 
 def _normalized_provider(raw_provider: str) -> str:
