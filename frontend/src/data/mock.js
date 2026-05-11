@@ -67,7 +67,7 @@ export const projects = [
     description: "High-performance, privacy-first Chrome extension that intelligently suspends inactive tabs to reclaim system memory. Built on Manifest V3 with a smart exclusion engine that detects audio, video, and active form inputs to ensure zero data loss while keeping the browser blazing fast.",
     tags: ["JavaScript", "Chrome Extension", "Manifest V3", "Performance"],
     gradient: "linear-gradient(135deg, #4f46e5 0%, #818cf8 100%)",
-    live: "https://github.com/sujalmeena7/Tab-Hibernator-Pro",
+    live: "https://chromewebstore.google.com/detail/lbabbhdapcdblnboodlljafchidhamka?utm_source=item-share-cb",
     github: "https://github.com/sujalmeena7/Tab-Hibernator-Pro",
   },
 ];
