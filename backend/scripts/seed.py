@@ -39,7 +39,7 @@ PROJECTS = [
         "description": "Hyper-personalized LinkedIn outreach generator as a Chrome extension. Automates profile scraping and crafts high-conversion DMs using Claude 3.5. Features AI-powered shortening, inline message editing, and persistent bookmarking.",
         "tags": ["JavaScript", "Claude 3.5", "Chrome Extension", "Manifest V3"],
         "gradient": "linear-gradient(135deg, #0A66C2 0%, #0077b5 100%)",
-        "live_url": "https://github.com/sujalmeena7/Connect-AI",
+        "live_url": "https://chromewebstore.google.com/detail/cjfnhjpheldgcfmipcmibbmlfmpflfij?utm_source=item-share-cb",
         "github_url": "https://github.com/sujalmeena7/Connect-AI",
         "order": 3,
     },
