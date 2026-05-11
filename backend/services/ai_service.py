@@ -141,7 +141,16 @@ async def chat(session_id: str, user_text: str) -> str:
         reply_text = reply.choices[0].message.content
     except Exception as e:  # pragma: no cover
         log.exception("LLM call failed")
-        raise RuntimeError(f"AI provider error: {e}")
+        err_str = str(e).lower()
+        if "rate" in err_str or "quota" in err_str or "429" in err_str or "resource_exhausted" in err_str:
+            raise RuntimeError(
+                "The AI concierge is temporarily over its usage limit. "
+                "Please try again in a minute, or reach out via the contact form below."
+            )
+        raise RuntimeError(
+            "The AI concierge is currently unavailable. "
+            "Please try again shortly, or use the contact form below to get in touch."
+        )
 
     # Persist the new turns
     now = datetime.now(timezone.utc)
