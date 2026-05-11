@@ -22,6 +22,7 @@ class Settings:
 
     OPENAI_API_KEY: str = os.environ.get("OPENAI_API_KEY", "")
     GEMINI_API_KEY: str = os.environ.get("GEMINI_API_KEY", "")
+    GROQ_API_KEY: str = os.environ.get("GROQ_API_KEY", "")
     AI_PROVIDER: str = os.environ.get("AI_PROVIDER", "openai")
     AI_MODEL: str = os.environ.get("AI_MODEL", "gpt-4o-mini")
 

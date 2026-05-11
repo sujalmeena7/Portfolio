@@ -21,19 +21,28 @@ log = logging.getLogger("ai")
 MAX_HISTORY_TURNS = 12  # last 12 turns (user+assistant pairs counted individually)
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 DEFAULT_GEMINI_MODEL = "gemini/gemini-2.0-flash"
+DEFAULT_GROQ_MODEL = "groq/llama-3.3-70b-versatile"
 
 
 def _normalized_provider(raw_provider: str) -> str:
     provider = (raw_provider or "").strip().lower()
-    if provider in {"openai", "gemini"}:
+    if provider in {"openai", "gemini", "groq"}:
         return provider
-    raise RuntimeError("Unsupported AI_PROVIDER. Use 'openai' or 'gemini'.")
+    raise RuntimeError("Unsupported AI_PROVIDER. Use 'openai', 'gemini', or 'groq'.")
 
 
 def _normalized_model(provider: str, raw_model: str) -> str:
     model = (raw_model or "").strip()
     if provider == "openai":
         return model or DEFAULT_OPENAI_MODEL
+
+    if provider == "groq":
+        if not model:
+            return DEFAULT_GROQ_MODEL
+        candidate = model
+        if candidate.startswith("groq/"):
+            candidate = candidate.split("/", 1)[1]
+        return f"groq/{candidate}"
 
     # Gemini provider: accept legacy/deprecated formats and normalize for LiteLLM.
     if not model:
@@ -112,7 +121,12 @@ def _system_prompt(portfolio_context: str, recent_history: List[Dict[str, Any]])
 
 async def chat(session_id: str, user_text: str) -> str:
     provider = _normalized_provider(settings.AI_PROVIDER)
-    api_key = settings.OPENAI_API_KEY if provider == "openai" else settings.GEMINI_API_KEY
+    if provider == "openai":
+        api_key = settings.OPENAI_API_KEY
+    elif provider == "groq":
+        api_key = settings.GROQ_API_KEY
+    else:
+        api_key = settings.GEMINI_API_KEY
     if not api_key:
         raise RuntimeError(f"{provider.upper()}_API_KEY is not configured on the server.")
     model = _normalized_model(provider, settings.AI_MODEL)
