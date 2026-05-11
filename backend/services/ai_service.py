@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Any
-from litellm import completion
+from litellm import acompletion
 
 from core.config import settings
 from core.database import db
@@ -147,7 +147,7 @@ async def chat(session_id: str, user_text: str) -> str:
     messages.append({"role": "user", "content": user_text})
 
     try:
-        reply = await completion(
+        reply = await acompletion(
             model=model,
             messages=messages,
             api_key=api_key
