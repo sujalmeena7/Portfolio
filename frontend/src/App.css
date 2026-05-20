@@ -22,8 +22,28 @@
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
 /* Hide scrollbar while keeping scroll functionality */
-html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0 !important; background: transparent !important; }
-html, body { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+#root::-webkit-scrollbar-track,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+#root::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+#root::-webkit-scrollbar-button {
+  display: none;
+}
+html, body, #root {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
 
 html, body, .app {
   background: var(--bg);
@@ -61,7 +81,7 @@ button { font-family: inherit; cursor: none; }
     radial-gradient(1200px 700px at 80% -10%, rgba(123, 47, 255, 0.18), transparent 60%),
     radial-gradient(1000px 600px at -10% 20%, rgba(0, 245, 255, 0.12), transparent 60%),
     var(--bg);
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* ---------- Grain overlay ---------- */
