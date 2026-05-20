@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const BASE_URL = 'https://sujalmeena.dev';
+const BASE_URL = 'https://sujalmeena.xyz';
 const OUTPUT_DIR = path.resolve(__dirname, '..', 'build');
 const OUTPUT_PATH = path.join(OUTPUT_DIR, 'sitemap.xml');
 

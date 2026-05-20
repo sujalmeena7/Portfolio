@@ -12,7 +12,7 @@ const path = require('path');
  * - Sitemap: absolute URL to sitemap.xml
  */
 function generateRobots() {
-  const sitemapUrl = 'https://sujalmeena.dev/sitemap.xml';
+  const sitemapUrl = 'https://sujalmeena.xyz/sitemap.xml';
   const outputDir = path.resolve(__dirname, '..', 'build');
   const outputPath = path.join(outputDir, 'robots.txt');
 
