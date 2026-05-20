@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
 import { ArrowDown, Download, Play } from "lucide-react";
 import { personal } from "../../data/mock";
 
@@ -10,96 +9,119 @@ export default function Hero() {
   const [title1, setTitle1] = useState("I BUILD");
   const [title2, setTitle2] = useState("DIGITAL WORLDS");
 
-  // Three.js particle galaxy
+  // Three.js particle galaxy — deferred to reduce TBT
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    let cleanup = null;
 
-    const PARTICLES = 6000;
-    const positions = new Float32Array(PARTICLES * 3);
-    const colors = new Float32Array(PARTICLES * 3);
-    const cyan = new THREE.Color("#00f5ff");
-    const violet = new THREE.Color("#7b2fff");
+    const initThree = async () => {
+      const THREE = await import("three");
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
 
-    for (let i = 0; i < PARTICLES; i++) {
-      const arm = Math.floor(Math.random() * 3);
-      const angle = (arm / 3) * Math.PI * 2 + Math.random() * 1.2;
-      const radius = Math.pow(Math.random(), 0.7) * 4;
-      const spin = radius * 0.9;
-      const x = Math.cos(angle + spin) * radius + (Math.random() - 0.5) * 0.4;
-      const y = (Math.random() - 0.5) * 0.6 * (1 - radius / 5);
-      const z = Math.sin(angle + spin) * radius + (Math.random() - 0.5) * 0.4;
-      positions.set([x, y, z], i * 3);
-      const mix = Math.random();
-      const c = cyan.clone().lerp(violet, mix);
-      colors.set([c.r, c.g, c.b], i * 3);
-    }
-
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-    const mat = new THREE.PointsMaterial({
-      size: 0.022,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.9,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const points = new THREE.Points(geo, mat);
-    scene.add(points);
-
-    // subtle core glow sphere
-    const core = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 32, 32),
-      new THREE.MeshBasicMaterial({ color: "#00f5ff", transparent: true, opacity: 0.35 })
-    );
-    scene.add(core);
-
-    const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-    const onMove = (e) => {
-      mouse.tx = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    window.addEventListener("mousemove", onMove);
-
-    const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener("resize", onResize);
 
-    let raf;
-    const clock = new THREE.Clock();
-    const animate = () => {
-      const t = clock.getElapsedTime();
-      mouse.x += (mouse.tx - mouse.x) * 0.05;
-      mouse.y += (mouse.ty - mouse.y) * 0.05;
-      points.rotation.y = t * 0.08 + mouse.x * 0.4;
-      points.rotation.x = Math.sin(t * 0.1) * 0.1 + mouse.y * 0.25;
-      core.scale.setScalar(1 + Math.sin(t * 2) * 0.08);
-      renderer.render(scene, camera);
-      raf = requestAnimationFrame(animate);
-    };
-    animate();
+      // Reduce particles on mobile for better performance
+      const isMobile = window.innerWidth <= 768;
+      const PARTICLES = isMobile ? 2000 : 6000;
+      const positions = new Float32Array(PARTICLES * 3);
+      const colors = new Float32Array(PARTICLES * 3);
+      const cyan = new THREE.Color("#00f5ff");
+      const violet = new THREE.Color("#7b2fff");
 
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("resize", onResize);
-      geo.dispose();
-      mat.dispose();
-      renderer.dispose();
+      for (let i = 0; i < PARTICLES; i++) {
+        const arm = Math.floor(Math.random() * 3);
+        const angle = (arm / 3) * Math.PI * 2 + Math.random() * 1.2;
+        const radius = Math.pow(Math.random(), 0.7) * 4;
+        const spin = radius * 0.9;
+        const x = Math.cos(angle + spin) * radius + (Math.random() - 0.5) * 0.4;
+        const y = (Math.random() - 0.5) * 0.6 * (1 - radius / 5);
+        const z = Math.sin(angle + spin) * radius + (Math.random() - 0.5) * 0.4;
+        positions.set([x, y, z], i * 3);
+        const mix = Math.random();
+        const c = cyan.clone().lerp(violet, mix);
+        colors.set([c.r, c.g, c.b], i * 3);
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+      const mat = new THREE.PointsMaterial({
+        size: 0.022,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const points = new THREE.Points(geo, mat);
+      scene.add(points);
+
+      // subtle core glow sphere
+      const core = new THREE.Mesh(
+        new THREE.SphereGeometry(0.18, 16, 16),
+        new THREE.MeshBasicMaterial({ color: "#00f5ff", transparent: true, opacity: 0.35 })
+      );
+      scene.add(core);
+
+      const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+      const onMove = (e) => {
+        mouse.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+      };
+      window.addEventListener("mousemove", onMove);
+
+      const onResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+      window.addEventListener("resize", onResize);
+
+      let raf;
+      const clock = new THREE.Clock();
+      const animate = () => {
+        const t = clock.getElapsedTime();
+        mouse.x += (mouse.tx - mouse.x) * 0.05;
+        mouse.y += (mouse.ty - mouse.y) * 0.05;
+        points.rotation.y = t * 0.08 + mouse.x * 0.4;
+        points.rotation.x = Math.sin(t * 0.1) * 0.1 + mouse.y * 0.25;
+        core.scale.setScalar(1 + Math.sin(t * 2) * 0.08);
+        renderer.render(scene, camera);
+        raf = requestAnimationFrame(animate);
+      };
+      animate();
+
+      cleanup = () => {
+        cancelAnimationFrame(raf);
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("resize", onResize);
+        geo.dispose();
+        mat.dispose();
+        renderer.dispose();
+      };
     };
+
+    // Defer Three.js init to after first paint to reduce TBT
+    if ('requestIdleCallback' in window) {
+      const id = requestIdleCallback(initThree, { timeout: 2000 });
+      return () => {
+        cancelIdleCallback(id);
+        if (cleanup) cleanup();
+      };
+    } else {
+      const timer = setTimeout(initThree, 100);
+      return () => {
+        clearTimeout(timer);
+        if (cleanup) cleanup();
+      };
+    }
   }, []);
 
   // Scramble text effect on mount

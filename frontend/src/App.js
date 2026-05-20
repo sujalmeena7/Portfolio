@@ -3,7 +3,6 @@ import "./App.css";
 import CustomCursor from "./components/portfolio/CustomCursor";
 import Navbar from "./components/portfolio/Navbar";
 import Hero from "./components/portfolio/Hero";
-import About from "./components/portfolio/About";
 import Skills from "./components/portfolio/Skills";
 import Projects from "./components/portfolio/Projects";
 import Contact from "./components/portfolio/Contact";
@@ -13,6 +12,7 @@ import { trackEvent } from "./lib/api";
 
 const FloatingParticles = React.lazy(() => import('./components/portfolio/FloatingParticles'));
 const ChatWidget = React.lazy(() => import('./components/portfolio/ChatWidget'));
+const About = React.lazy(() => import('./components/portfolio/About'));
 
 function App() {
   useEffect(() => {
@@ -29,7 +29,9 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <About />
+        <Suspense fallback={null}>
+          <About />
+        </Suspense>
         <Skills />
         <Projects />
         <Contact />
