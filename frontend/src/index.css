@@ -8,18 +8,27 @@ html, body {
   background: #050810;
   color: #e8edf5;
   margin: 0;
+  width: 100%;
+  max-width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html {
+  color-scheme: dark;
+  overflow-x: clip;
 }
 
 html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none !important;
 }
 
 code {

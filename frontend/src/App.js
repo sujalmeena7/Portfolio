@@ -19,6 +19,16 @@ function App() {
     trackEvent("page_view", null, window.location.pathname);
   }, []);
 
+  // Belt-and-suspenders: hide native scrollbar on Windows/classic WebKit
+  useEffect(() => {
+    document.documentElement.classList.add("no-scrollbar");
+    document.body.classList.add("no-scrollbar");
+    return () => {
+      document.documentElement.classList.remove("no-scrollbar");
+      document.body.classList.remove("no-scrollbar");
+    };
+  }, []);
+
   return (
     <div className="app">
       <div className="grain" aria-hidden="true" />

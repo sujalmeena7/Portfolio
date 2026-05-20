@@ -19,28 +19,59 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-gutter: auto;
+}
 
-/* Hide scrollbar while keeping scroll functionality */
+/* Hide scrollbar while keeping scroll (overflow-x on html forces a scrollbar in some browsers) */
+html,
+body,
+#root,
+.app,
+main {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
-#root::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+#root::-webkit-scrollbar,
+.app::-webkit-scrollbar,
+main::-webkit-scrollbar,
+:not(.chat-panel__body)::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
 }
 html::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track,
 #root::-webkit-scrollbar-track,
+.app::-webkit-scrollbar-track,
+main::-webkit-scrollbar-track,
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb,
 #root::-webkit-scrollbar-thumb,
+.app::-webkit-scrollbar-thumb,
+main::-webkit-scrollbar-thumb,
 html::-webkit-scrollbar-button,
 body::-webkit-scrollbar-button,
-#root::-webkit-scrollbar-button {
-  display: none;
+#root::-webkit-scrollbar-button,
+.app::-webkit-scrollbar-button,
+main::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
-html, body, #root {
+
+html.no-scrollbar,
+html.no-scrollbar body {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
@@ -56,7 +87,9 @@ body {
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.01em;
-  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   cursor: none;
 }
 
@@ -77,11 +110,13 @@ button { font-family: inherit; cursor: none; }
 
 .app {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   background:
     radial-gradient(1200px 700px at 80% -10%, rgba(123, 47, 255, 0.18), transparent 60%),
     radial-gradient(1000px 600px at -10% 20%, rgba(0, 245, 255, 0.12), transparent 60%),
     var(--bg);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ---------- Grain overlay ---------- */
@@ -387,12 +422,13 @@ button { font-family: inherit; cursor: none; }
   margin: 0 auto;
   padding: 140px 32px;
   z-index: 3;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .section__index {
   position: absolute;
   top: 60px;
-  right: 32px;
+  right: 0;
+  max-width: min(50vw, 320px);
   font-family: "Syne", sans-serif;
   font-weight: 800;
   font-size: clamp(120px, 18vw, 260px);
@@ -934,7 +970,7 @@ button { font-family: inherit; cursor: none; }
 @media (max-width: 640px) {
   .hero { padding: 120px 24px 100px; }
   .section { padding: 100px 24px; }
-  .section__index { right: 24px; top: 40px; }
+  .section__index { right: 0; top: 40px; }
   .navbar__inner { padding: 0 20px; }
   .about__stats { grid-template-columns: 1fr; }
   .contact__email {
@@ -954,7 +990,7 @@ button { font-family: inherit; cursor: none; }
 @media (max-width: 380px) {
   .hero { padding: 100px 16px 80px; }
   .section { padding: 80px 16px; }
-  .section__index { right: 16px; top: 32px; }
+  .section__index { right: 0; top: 32px; }
   .navbar__inner { padding: 0 16px; }
   .navbar__mobile { padding: 16px 16px 24px; }
   .hero__ctas { flex-direction: column; gap: 12px; }
@@ -1042,7 +1078,7 @@ button { font-family: inherit; cursor: none; }
   bottom: 24px;
   left: 24px;
   z-index: 9000;
-  width: min(380px, calc(100vw - 48px));
+  width: min(380px, calc(100% - 48px));
   height: min(560px, calc(100vh - 120px));
   display: flex;
   flex-direction: column;
