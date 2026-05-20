@@ -2,8 +2,12 @@ const fs = require('fs');
 const path = require('path');
 
 const BASE_URL = 'https://sujalmeena.xyz';
-const OUTPUT_DIR = path.resolve(__dirname, '..', 'build');
-const OUTPUT_PATH = path.join(OUTPUT_DIR, 'sitemap.xml');
+const BUILD_DIR = path.resolve(__dirname, '..', 'build');
+const PUBLIC_DIR = path.resolve(__dirname, '..', 'public');
+const OUTPUT_PATHS = [
+  path.join(BUILD_DIR, 'sitemap.xml'),
+  path.join(PUBLIC_DIR, 'sitemap.xml'),
+];
 
 function generateSitemap() {
   const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
@@ -20,12 +24,14 @@ function generateSitemap() {
 `;
 
   try {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    for (const outputPath of OUTPUT_PATHS) {
+      const dir = path.dirname(outputPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(outputPath, xml, 'utf8');
+      console.log(`Sitemap generated successfully: ${outputPath}`);
     }
-
-    fs.writeFileSync(OUTPUT_PATH, xml, 'utf8');
-    console.log(`Sitemap generated successfully: ${OUTPUT_PATH}`);
   } catch (error) {
     process.stderr.write(`ERROR: Sitemap generation failed: ${error.message}\n`);
     process.exit(1);

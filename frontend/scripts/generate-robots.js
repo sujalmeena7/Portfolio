@@ -13,8 +13,10 @@ const path = require('path');
  */
 function generateRobots() {
   const sitemapUrl = 'https://sujalmeena.xyz/sitemap.xml';
-  const outputDir = path.resolve(__dirname, '..', 'build');
-  const outputPath = path.join(outputDir, 'robots.txt');
+  const outputPaths = [
+    path.join(path.resolve(__dirname, '..', 'build'), 'robots.txt'),
+    path.join(path.resolve(__dirname, '..', 'public'), 'robots.txt'),
+  ];
 
   const content = [
     'User-agent: *',
@@ -26,13 +28,14 @@ function generateRobots() {
   ].join('\n');
 
   try {
-    // Create build directory if it doesn't exist
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    for (const outputPath of outputPaths) {
+      const dir = path.dirname(outputPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(outputPath, content, 'utf8');
+      console.log(`robots.txt generated successfully at ${outputPath}`);
     }
-
-    fs.writeFileSync(outputPath, content, 'utf8');
-    console.log(`robots.txt generated successfully at ${outputPath}`);
   } catch (error) {
     process.stderr.write(`ERROR: robots.txt generation failed: ${error.message}\n`);
     process.exit(1);
