@@ -59,7 +59,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "postbuild": "node scripts/generate-sitemap.js && node scripts/generate-robots.js && react-snap",
+    "postbuild": "node scripts/generate-sitemap.js && node scripts/generate-robots.js",
     "test": "craco test"
   },
   "reactSnap": {
