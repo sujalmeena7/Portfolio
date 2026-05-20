@@ -73,11 +73,11 @@ export default function Skills() {
   }, []);
 
   return (
-    <section id="skills" className="section skills" ref={ref}>
+    <section id="skills" className="section skills" ref={ref} aria-labelledby="skills-heading">
       <div className="section__index">02</div>
-      <div className="section__heading">
+      <h2 id="skills-heading" className="section__heading">
         <span className={`section__heading-inner ${visible ? "reveal-in" : ""}`}>SKILLS</span>
-      </div>
+      </h2>
       <p className="section__lede">
         Tools and technologies I reach for when turning ambitious ideas into shippable, fast, and memorable products.
       </p>
