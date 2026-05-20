@@ -22,8 +22,8 @@
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
 /* Hide scrollbar while keeping scroll functionality */
-html::-webkit-scrollbar { width: 0; background: transparent; }
-html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0 !important; background: transparent !important; }
+html, body { scrollbar-width: none !important; -ms-overflow-style: none !important; }
 
 html, body, .app {
   background: var(--bg);
