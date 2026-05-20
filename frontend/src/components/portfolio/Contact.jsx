@@ -56,18 +56,18 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section contact" ref={ref}>
+    <section id="contact" className="section contact" ref={ref} aria-labelledby="contact-heading">
       <div className="contact__mesh" aria-hidden="true" />
       <div className="section__index">04</div>
-      <div className="section__heading section__heading--center">
+      <h2 id="contact-heading" className="section__heading section__heading--center">
         <span className={`section__heading-inner ${visible ? "reveal-in" : ""}`}>LET'S BUILD</span>
-      </div>
+      </h2>
 
       <div className={`contact__inner ${visible ? "fade-up-in" : "fade-up"}`}>
-        <h2 className="contact__headline">
+        <p className="contact__headline">
           Have a project <span className="contact__headline-accent">in orbit?</span>
           <br />Let's make it land.
-        </h2>
+        </p>
         <p className="contact__sub">
           Open to freelance collaborations, creative coding commissions, and full-time creative developer roles.
         </p>
@@ -123,13 +123,13 @@ export default function Contact() {
 
         <div className="contact__socials">
           {socials.github && (
-            <a href={socials.github} target="_blank" rel="noreferrer" className="contact__social" aria-label="GitHub"><Github size={18} /></a>
+            <a href={socials.github} target="_blank" rel="noopener noreferrer" className="contact__social" aria-label="GitHub"><Github size={18} /></a>
           )}
           {socials.linkedin && (
-            <a href={socials.linkedin} target="_blank" rel="noreferrer" className="contact__social" aria-label="LinkedIn"><Linkedin size={18} /></a>
+            <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="contact__social" aria-label="LinkedIn"><Linkedin size={18} /></a>
           )}
           {socials.twitter && (
-            <a href={socials.twitter} target="_blank" rel="noreferrer" className="contact__social" aria-label="Twitter"><Twitter size={18} /></a>
+            <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="contact__social" aria-label="Twitter"><Twitter size={18} /></a>
           )}
         </div>
       </div>

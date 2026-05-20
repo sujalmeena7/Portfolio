@@ -7,6 +7,7 @@ export default function About() {
   const meshCanvasRef = useRef(null);
   const [revealRef, visible] = useReveal();
   const [about, setAbout] = useState(null);
+  const [canvasVisible, setCanvasVisible] = useState(false);
 
   useEffect(() => {
     fetchAbout()
@@ -14,7 +15,27 @@ export default function About() {
       .catch((error) => console.error("[about] Failed to load about data", error));
   }, []);
 
+  // Intersection Observer to lazy-initialize Three.js canvas
   useEffect(() => {
+    const canvas = meshCanvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCanvasVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!canvasVisible) return;
     const canvas = meshCanvasRef.current;
     if (!canvas) return;
     const w = canvas.clientWidth;
@@ -74,17 +95,17 @@ export default function About() {
       material.dispose();
       renderer.dispose();
     };
-  }, []);
+  }, [canvasVisible]);
 
   const bioLines = about?.bio || [];
   const statsList = about?.stats || [];
 
   return (
-    <section id="about" className="section about" ref={revealRef}>
+    <section id="about" className="section about" ref={revealRef} aria-labelledby="about-heading">
       <div className="section__index">01</div>
-      <div className="section__heading">
+      <h2 id="about-heading" className="section__heading">
         <span className={`section__heading-inner ${visible ? "reveal-in" : ""}`}>ABOUT</span>
-      </div>
+      </h2>
 
       <div className="about__grid">
         <div className="about__mesh">

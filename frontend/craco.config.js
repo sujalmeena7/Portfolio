@@ -51,6 +51,34 @@ let webpackConfig = {
         ],
       };
 
+      // Code splitting configuration (Requirement 7.4)
+      // - React.lazy() in App.js automatically code-splits ChatWidget and FloatingParticles
+      //   into separate async chunks loaded on demand.
+      // - CRA's HtmlWebpackPlugin already adds defer="defer" to all injected script tags.
+      // - splitChunks separates vendor libraries from app code for better caching.
+      if (webpackConfig.optimization) {
+        webpackConfig.optimization.splitChunks = {
+          ...webpackConfig.optimization.splitChunks,
+          chunks: 'all',
+          cacheGroups: {
+            // Separate large vendor libraries into their own chunk
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
+              priority: 10,
+            },
+            // Three.js is large and only used in specific sections — isolate it
+            three: {
+              test: /[\\/]node_modules[\\/]three[\\/]/,
+              name: 'three-vendor',
+              chunks: 'all',
+              priority: 20,
+            },
+          },
+        };
+      }
+
       // Add health check plugin to webpack if enabled
       if (config.enableHealthCheck && healthPluginInstance) {
         webpackConfig.plugins.push(healthPluginInstance);

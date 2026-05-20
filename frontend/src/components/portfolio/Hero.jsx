@@ -149,7 +149,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="hero" ref={heroRef}>
+    <section id="home" aria-labelledby="hero-heading" className="hero" ref={heroRef}>
       <canvas ref={canvasRef} className="hero__canvas" />
       <div className="hero__vignette" aria-hidden="true" />
 
@@ -159,7 +159,7 @@ export default function Hero() {
           <span>{personal.role.toUpperCase()} · {personal.location.toUpperCase()}</span>
         </div>
 
-        <h1 className="hero__title">
+        <h1 id="hero-heading" className="hero__title">
           <span className="hero__title-row hero__title-row--thin">{title1}</span>
           <span className="hero__title-row hero__title-row--bold">{title2}</span>
         </h1>

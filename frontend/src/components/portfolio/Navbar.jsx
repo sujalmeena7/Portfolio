@@ -27,7 +27,7 @@ export default function Navbar() {
           <span className="navbar__logo-dot" />
         </a>
 
-        <nav className="navbar__links" aria-label="Primary">
+        <nav className="navbar__links" aria-label="Primary navigation">
           {navLinks.map((l) => (
             <a
               key={l.href}

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import "./App.css";
 import CustomCursor from "./components/portfolio/CustomCursor";
-import FloatingParticles from "./components/portfolio/FloatingParticles";
 import Navbar from "./components/portfolio/Navbar";
 import Hero from "./components/portfolio/Hero";
 import About from "./components/portfolio/About";
@@ -9,9 +8,11 @@ import Skills from "./components/portfolio/Skills";
 import Projects from "./components/portfolio/Projects";
 import Contact from "./components/portfolio/Contact";
 import Footer from "./components/portfolio/Footer";
-import ChatWidget from "./components/portfolio/ChatWidget";
 import { Toaster } from "./components/ui/toaster";
 import { trackEvent } from "./lib/api";
+
+const FloatingParticles = React.lazy(() => import('./components/portfolio/FloatingParticles'));
+const ChatWidget = React.lazy(() => import('./components/portfolio/ChatWidget'));
 
 function App() {
   useEffect(() => {
@@ -21,7 +22,9 @@ function App() {
   return (
     <div className="app">
       <div className="grain" aria-hidden="true" />
-      <FloatingParticles count={50} />
+      <Suspense fallback={null}>
+        <FloatingParticles count={50} />
+      </Suspense>
       <CustomCursor />
       <Navbar />
       <main>
@@ -32,7 +35,9 @@ function App() {
         <Contact />
       </main>
       <Footer />
-      <ChatWidget />
+      <Suspense fallback={null}>
+        <ChatWidget />
+      </Suspense>
       <Toaster />
     </div>
   );
