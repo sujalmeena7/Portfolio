@@ -97,7 +97,10 @@ export default function About() {
     };
   }, [canvasVisible]);
 
-  const bioLines = about?.bio || [];
+  const bioLines = about?.bio || [
+    "Full-Stack AI Engineer building intelligent systems that bridge cutting-edge AI with production-grade web applications.",
+    "Specializing in agentic workflows, RAG pipelines, and high-performance digital experiences that push the boundaries of what's possible on the web."
+  ];
   const statsList = about?.stats || [];
 
   return (

@@ -21,6 +21,10 @@
 
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
+/* Hide scrollbar while keeping scroll functionality */
+html::-webkit-scrollbar { width: 0; background: transparent; }
+html { scrollbar-width: none; -ms-overflow-style: none; }
+
 html, body, .app {
   background: var(--bg);
   color: var(--ink);
