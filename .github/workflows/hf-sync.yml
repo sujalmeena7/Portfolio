@@ -29,14 +29,17 @@ jobs:
           # Clone the HF Space into a temporary folder
           git clone https://sujalmeena7:$HF_TOKEN@huggingface.co/spaces/sujalmeena7/lexguard-api hf-space
           
-          # Remove everything in the HF space except the hidden .git folder
-          find hf-space -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          # Use rsync to copy backend files to hf-space, deleting old files
+          # but explicitly preserving .git and .env
+          rsync -av --delete --exclude='.git/' --exclude='.env' backend/ hf-space/
           
-          # Copy all new backend files into the HF Space folder
-          cp -R backend/* hf-space/
-          
-          # Push the changes back to Hugging Face
+          # Force git to operate only inside hf-space
           cd hf-space
+          
+          # Prevent GitHub Actions from overriding the git directory
+          unset GIT_DIR
+          unset GIT_WORK_TREE
+          
           git add .
           
           # Only commit and push if there are actual changes
