@@ -1,0 +1,43 @@
+name: Sync Backend to Hugging Face Space
+
+on:
+  push:
+    branches: [ main ]
+    # Only trigger when files in the backend folder change
+    paths:
+      - 'backend/**'
+  
+  # Allow running manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
+          # Clone the HF Space into a temporary folder
+          git clone https://sujalmeena7:$HF_TOKEN@huggingface.co/spaces/sujalmeena7/lexguard-api hf-space
+          
+          # Remove everything in the HF space except the hidden .git folder
+          find hf-space -mindepth 1 -not -name '.git' -delete
+          
+          # Copy all new backend files into the HF Space folder
+          cp -R backend/* hf-space/
+          
+          # Push the changes back to Hugging Face
+          cd hf-space
+          git add .
+          
+          # Only commit and push if there are actual changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync backend from GitHub" && git push)
