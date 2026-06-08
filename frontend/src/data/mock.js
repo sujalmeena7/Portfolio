@@ -16,7 +16,7 @@ export const socials = {
 };
 
 export const stats = [
-  { label: "Projects", value: "9", suffix: "+" },
+  { label: "Projects", value: "10", suffix: "+" },
   { label: "Hackathons", value: "10", suffix: "+" },
   { label: "Technologies", value: "15", suffix: "+" },
 ];
@@ -69,6 +69,16 @@ export const projects = [
     gradient: "linear-gradient(135deg, #4f46e5 0%, #818cf8 100%)",
     live: "https://chromewebstore.google.com/detail/lbabbhdapcdblnboodlljafchidhamka?utm_source=item-share-cb",
     github: "https://github.com/sujalmeena7/Tab-Hibernator-Pro",
+  },
+  {
+    id: "05",
+    title: "ContextBridge",
+    description: "A local-first, privacy-focused Chrome Extension (Manifest V3) that parses active browser pages into clean Markdown, stores them in IndexedDB, and enables offline RAG/AI chat. Features semantic chunking, full-text search, and integrations with Ollama, Claude, OpenAI, and Gemini.",
+    tags: ["JavaScript", "Chrome Extension", "Manifest V3", "IndexedDB", "RAG", "Ollama"],
+    gradient: "linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)",
+    live: "https://chromewebstore.google.com/detail/contextbridge-%E2%80%93-local-rag/jokgmcedjecppdfnbicfonbmgjpbglko?authuser=0&hl=en-GB",
+    github: "https://github.com/sujalmeena7/ContextBridge",
+    image_url: "/contextbridge.png",
   },
 ];
 
