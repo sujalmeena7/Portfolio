@@ -1,8 +1,7 @@
 {
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
-    { "source": "/api/:path*", "destination": "http://13.205.42.176:8000/api/:path*" }
+    { "source": "/robots.txt", "destination": "/robots.txt" }
   ],
   "headers": [
     {
@@ -36,6 +35,12 @@
           "value": "public, max-age=0, must-revalidate"
         }
       ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/keepalive",
+      "schedule": "0 0 * * *"
     }
   ]
 }
