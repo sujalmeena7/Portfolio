@@ -28,7 +28,6 @@ jobs:
           
           # 2. Copy the crucial Hugging Face metadata files into our backend folder
           # so they are preserved when we push.
-          if [ -f /tmp/hf-space/.env ]; then cp /tmp/hf-space/.env backend/; fi
           if [ -f /tmp/hf-space/README.md ]; then cp /tmp/hf-space/README.md backend/; fi
           if [ -f /tmp/hf-space/.gitattributes ]; then cp /tmp/hf-space/.gitattributes backend/; fi
           
