@@ -28,6 +28,11 @@ class Settings:
 
     CORS_ORIGINS: str = os.environ.get("CORS_ORIGINS", "*")
 
+    SMTP_HOST: str = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT: int = int(os.environ.get("SMTP_PORT", "465"))
+    SMTP_USER: str = os.environ.get("SMTP_USER", "meenasujal60@gmail.com")
+    SMTP_PASSWORD: str = os.environ.get("SMTP_PASSWORD", "")
+
 
 settings = Settings()
 Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
