@@ -30,7 +30,7 @@ jobs:
           git clone https://sujalmeena7:$HF_TOKEN@huggingface.co/spaces/sujalmeena7/lexguard-api hf-space
           
           # Remove everything in the HF space except the hidden .git folder
-          find hf-space -mindepth 1 -not -name '.git' -delete
+          find hf-space -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
           
           # Copy all new backend files into the HF Space folder
           cp -R backend/* hf-space/
