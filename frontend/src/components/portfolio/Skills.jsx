@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import useReveal from "../../hooks/useReveal";
 import { fetchSkills } from "../../lib/api";
+import { skills as mockSkills } from "../../data/mock";
 
 const ICONS = {
   Braces, Atom, Server, Box, Terminal, Container, Cloud, Figma,
@@ -64,7 +65,7 @@ function TiltCard({ skill, index, inView }) {
 
 export default function Skills() {
   const [ref, visible] = useReveal();
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState(mockSkills);
 
   useEffect(() => {
     fetchSkills()

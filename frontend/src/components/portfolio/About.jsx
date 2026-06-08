@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import useReveal from "../../hooks/useReveal";
 import { fetchAbout } from "../../lib/api";
+import { about as mockAbout } from "../../data/mock";
 
 export default function About() {
   const meshCanvasRef = useRef(null);
   const [revealRef, visible] = useReveal();
-  const [about, setAbout] = useState(null);
+  const [about, setAbout] = useState(mockAbout);
   const [canvasVisible, setCanvasVisible] = useState(false);
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import useReveal from "../../hooks/useReveal";
 import { fetchProjects } from "../../lib/api";
 import { formatProjectAltText, handleImageError } from "../../utils/seo-helpers";
+import { projects as mockProjects } from "../../data/mock";
 
 function ProjectCard({ project, index }) {
   const [ref, visible] = useReveal();
@@ -73,7 +74,7 @@ function ProjectCard({ project, index }) {
 
 export default function Projects() {
   const [ref, visible] = useReveal();
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(mockProjects);
 
   useEffect(() => {
     fetchProjects()
