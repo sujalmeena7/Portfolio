@@ -14,7 +14,7 @@ class Settings:
     JWT_ALGORITHM: str = os.environ.get("JWT_ALGORITHM", "HS256")
     JWT_EXPIRE_MINUTES: int = int(os.environ.get("JWT_EXPIRE_MINUTES", "720"))
 
-    SEED_ADMIN_EMAIL: str = os.environ.get("SEED_ADMIN_EMAIL", "admin@portfolio.dev")
+    SEED_ADMIN_EMAIL: str = os.environ.get("SEED_ADMIN_EMAIL", "meenasujal60@gmail.com")
     SEED_ADMIN_PASSWORD: str = os.environ.get("SEED_ADMIN_PASSWORD", "Admin@123")
 
     UPLOAD_DIR: str = os.environ.get("UPLOAD_DIR", str(ROOT_DIR / "uploads"))
